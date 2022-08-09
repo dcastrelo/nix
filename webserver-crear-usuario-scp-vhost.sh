@@ -86,3 +86,6 @@ echo Clave: la que pusimos :P
 echo Servidor: $NewSubFolder
 
 echo no te olvides de restartear el equipo y testear los permisos del sftp!
+service apache2 reload
+service apache2 restart
+service sshd reload
