@@ -1,10 +1,11 @@
 # /bin/sh
-# variables
+# variables  cheu2Que
 
 NewFolderLock=fisca.incaa.gob.ar
 NewUser=fisca.incaa
 NewSubFolder=fisca.incaa.gob.ar
 
+apt install pwgen -y
 clear
 useradd $NewUser
 pwgen
@@ -20,11 +21,10 @@ chmod 755 /var/www/$NewFolderLock/$NewSubFolder
 usermod -d /var/www/$NewFolderLock $NewUser
 usermod -s /bin/false $NewUser
 
-apt install pwgen -y
-
 echo descarga y copia archivos "en mantenimiento"
 
-wget -c https://github.com/dcastrelo/nix/raw/main/files/mantenimiento.tar && sudo tar xvf mantenimiento.tar -C /var/www/html/
+wget -c https://github.com/dcastrelo/nix/raw/main/files/mantenimiento.tar
+tar xvf mantenimiento.tar -C /var/www/html/
 tar xvf mantenimiento.tar -C /var/www/$NewFolderLock/$NewSubFolder/
 sed -i '/<\/html>/ i <center> $NewSubFolder </center>' /var/www/$NewFolderLock/$NewSubFolder/index.html
 sed -i '/<\/html>/ i <center> $NewSubFolder </center>' /var/www/index.html
@@ -40,7 +40,7 @@ Match User $NewUser
         ForceCommand internal-sftp
 EOF
 
-echo copiar por SCP certificados *.incaa.gob.ar de webserver en 172.16.0.7 (va a pedir clave)
+echo copiar por SCP certificados *.incaa.gob.ar de webserver en 172.16.0.7 va a pedir clave
 scp dario@172.16.0.77:/etc/apache2/ssl/incaaSSL.* /etc/apache2/ssl/
 
 echo se va a crear el vhost
