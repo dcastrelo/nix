@@ -1,10 +1,9 @@
 # /bin/sh
 # variables  cheu2Que
-
-NewFolderLock=fisca.incaa.gob.ar
-NewUser=fisca.incaa
-NewSubFolder=fisca.incaa.gob.ar
-
+# COPIAR CERTIFICADOS EN /etc/apache2/ssl
+apt install apache2 -Y
+NewFolderLock=XXXX
+NewUser=XXX
 apt install pwgen -y
 clear
 useradd $NewUser
@@ -14,10 +13,17 @@ passwd $NewUser
 echo Se van a crear las carpetas para la pagina web y se le van a dar permisos al usuario
 mkdir /var/www/$NewFolderLock
 chown root:$NewUser /var/www/$NewFolderLock
-chmod 755 /var/www/$NewFolderLock
-mkdir /var/www/$NewFolderLock/$NewSubFolder
-chown $NewUser:$NewUser /var/www/$NewFolderLock/$NewSubFolder
-chmod 755 /var/www/$NewFolderLock/$NewSubFolder
+chmod 750 /var/www/$NewFolderLock
+mkdir /var/www/$NewFolderLock/$NewFolderLock
+chown $NewUser /var/www/$NewFolderLock/$NewFolderLock
+chgrp www-data /var/www/$NewFolderLock/$NewFolderLock/
+chmod -R 750 /var/www/$NewFolderLock/$NewFolderLock
+chmod g+s /var/www/$NewFolderLock/$NewFolderLock/
+
+#If you have folders that need to be writable by the web server, you can just modify the permission values for the group owner so that www-data has write access. Run this command on each writable folder:
+#For security reasons apply this only where necessary and not on the whole website directory.
+#chmod g+w /var/www/my-website.com/<writable-folder>
+
 usermod -d /var/www/$NewFolderLock $NewUser
 usermod -s /bin/false $NewUser
 
@@ -25,9 +31,9 @@ echo descarga y copia archivos "en mantenimiento"
 
 wget -c https://github.com/dcastrelo/nix/raw/main/files/mantenimiento.tar
 tar xvf mantenimiento.tar -C /var/www/html/
-tar xvf mantenimiento.tar -C /var/www/$NewFolderLock/$NewSubFolder/
-sed -i '/<\/html>/ i <center> $NewSubFolder </center>' /var/www/$NewFolderLock/$NewSubFolder/index.html
-sed -i '/<\/html>/ i <center> $NewSubFolder </center>' /var/www/index.html
+tar xvf mantenimiento.tar -C /var/www/$NewFolderLock/$NewFolderLock/
+sed -i '/<\/html>/ i <center> $NewFolderLock </center>' /var/www/$NewFolderLock/$NewFolderLock/index.html
+sed -i '/<\/html>/ i <center> $NewFolderLock </center>' /var/www/index.html
 
 
 
@@ -44,29 +50,29 @@ echo copiar por SCP certificados *.incaa.gob.ar de webserver en 172.16.0.7 va a 
 scp dario@172.16.0.77:/etc/apache2/ssl/incaaSSL.* /etc/apache2/ssl/
 
 echo se va a crear el vhost
-cat > /etc/apache2/sites-available/$NewSubFolder.conf <<EOF
+cat > /etc/apache2/sites-available/$NewFolderLock.conf <<EOF
 
 <VirtualHost *:80>
-        ServerName $NewSubFolder
-        Redirect permanent / https://$NewSubFolder
+        ServerName $NewFolderLock
+        Redirect permanent / https://$NewFolderLock
 </VirtualHost>
 
 <VirtualHost *:443>
-        ServerName $NewSubFolder
+        ServerName $NewFolderLock
         ServerAdmin redes@incaa.gob.ar
 
-        ErrorLog /var/log/apache2/$NewSubFolder.ssl-error.log
-        CustomLog /var/log/apache2/$NewSubFolder.ssl-access.log common
-        php_value error_log /var/log/apache2/$NewSubFolder.ssl-php_error.log
+        ErrorLog /var/log/apache2/$NewFolderLock.ssl-error.log
+        CustomLog /var/log/apache2/$NewFolderLock.ssl-access.log common
+        php_value error_log /var/log/apache2/$NewFolderLock.ssl-php_error.log
 
-        DocumentRoot /var/www/$NewFolderLock/$NewSubFolder
+        DocumentRoot /var/www/$NewFolderLock/$NewFolderLock
 
         SSLEngine on
         SSLCertificateFile      /etc/apache2/ssl/incaaSSL.crt
         SSLCertificateKeyFile /etc/apache2/ssl/incaaSSL.key
         SSLCertificateChainFile /etc/apache2/ssl/incaaSSL.ca-bundle
 
- <Directory /var/www/$NewFolderLock/$NewSubFolder/>
+ <Directory /var/www/$NewFolderLock/$NewFolderLock/>
         Options Indexes FollowSymLinks
         AllowOverride all
         Require all granted
@@ -76,14 +82,14 @@ cat > /etc/apache2/sites-available/$NewSubFolder.conf <<EOF
 EOF
 
 echo se va a habilitar el nuevo vhost y restartear apache
-a2ensite $NewSubFolder
+a2ensite $NewFolderLock
 a2enmod ssl
 service apache2 reload
 service apache2 restart
 
 echo Usuario: $NewUser
 echo Clave: la que pusimos :P
-echo Servidor: $NewSubFolder
+echo Servidor: $NewFolderLock
 
 echo no te olvides de restartear el equipo y testear los permisos del sftp!
 service apache2 reload
