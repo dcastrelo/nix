@@ -1,7 +1,7 @@
 # /bin/sh
 # variables  cheu2Que
 # COPIAR CERTIFICADOS EN /etc/apache2/ssl
-apt install apache2 -Y
+apt install apache2 -y
 NewFolderLock=XXXX
 NewUser=XXX
 apt install pwgen -y
