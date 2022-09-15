@@ -10,15 +10,15 @@ useradd $NewUser
 pwgen
 echo Armar una password con alguno de los ejemplos de arriba e ingresarla para el nuevo usuario
 passwd $NewUser
+
 echo Se van a crear las carpetas para la pagina web y se le van a dar permisos al usuario
+
 mkdir /var/www/$NewFolderLock
-chown root:$NewUser /var/www/$NewFolderLock
-chmod 750 /var/www/$NewFolderLock
 mkdir /var/www/$NewFolderLock/$NewFolderLock
-chown $NewUser /var/www/$NewFolderLock/$NewFolderLock
-chgrp www-data /var/www/$NewFolderLock/$NewFolderLock/
-chmod -R 750 /var/www/$NewFolderLock/$NewFolderLock
-chmod g+s /var/www/$NewFolderLock/$NewFolderLock/
+chown root /var/www/$NewFolderLock/$NewFolderLock
+chgrp $NewUser /var/www/$NewFolderLock/$NewFolderLock
+chmod 775 /var/www/$NewFolderLock/$NewFolderLock
+chmod g+s /var/www/$NewFolderLock/$NewFolderLock
 
 #If you have folders that need to be writable by the web server, you can just modify the permission values for the group owner so that www-data has write access. Run this command on each writable folder:
 #For security reasons apply this only where necessary and not on the whole website directory.
