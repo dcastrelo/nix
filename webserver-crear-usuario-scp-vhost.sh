@@ -18,7 +18,7 @@ mkdir /var/www/$NewFolderLock/$NewFolderLock
 chown root /var/www/$NewFolderLock/$NewFolderLock
 chgrp $NewUser /var/www/$NewFolderLock/$NewFolderLock
 chmod 775 /var/www/$NewFolderLock/$NewFolderLock
-chmod g+s /var/www/$NewFolderLock/$NewFolderLock
+chmod g+w /var/www/$NewFolderLock/$NewFolderLock
 
 #If you have folders that need to be writable by the web server, you can just modify the permission values for the group owner so that www-data has write access. Run this command on each writable folder:
 #For security reasons apply this only where necessary and not on the whole website directory.
