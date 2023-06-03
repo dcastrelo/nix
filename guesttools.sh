@@ -3,5 +3,4 @@
 ##  Run with SUDO, no seas idiota
 sudo mkdir /mnt/sr0
 sudo mount /dev/sr0 /mnt/sr0
-cd /mnt/sr0
-sudo ./Linux.sh
+sudo bash /mnt/sr0/Linux/install.sh
