@@ -7,4 +7,4 @@ apt update
 apt install zabbix-agent2 zabbix-agent2-plugin-*
 systemctl restart zabbix-agent2
 systemctl enable zabbix-agent2
-nano /etc/zabbix/zabbix_agentd.conf
+nano /etc/zabbix/zabbix_agent2.conf
