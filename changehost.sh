@@ -24,6 +24,6 @@ sed -i "s/127.0.1.1\s*.*$/127.0.1.1\t$NEW_HOSTNAME/" /etc/hosts
 echo "Hostname has been changed to $NEW_HOSTNAME"
 
 # Optional: Restart networking service if necessary
-# systemctl restart network.service
+systemctl restart network.service
 
 echo "Hostname change complete. Please reboot or restart networking services to apply changes."
