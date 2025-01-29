@@ -71,4 +71,8 @@ echo "Instalación completada."
 echo "Accede a Nextcloud en: http://$DOMAIN"
 echo "Configura Nextcloud en el asistente de instalación web."
 
+echo "Base de datos: nextcloud_db"
+echo "Usuario de la base de datos: nextcloud"
+echo "Contraseña de la base de datos: ${DB_PASSWORD}"
+
 exit 0
