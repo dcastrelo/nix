@@ -23,9 +23,9 @@ apt install -y apache2 mariadb-server libapache2-mod-php php-gd php-mysql php-cu
 echo "Configurando la base de datos MariaDB..."
 read -p "Ingresa una contraseña segura para el usuario de la base de datos Nextcloud: " DB_PASSWORD
 mysql -u root <<EOF
-CREATE DATABASE nextcloud;
+CREATE DATABASE nextcloud_db;
 CREATE USER 'nextcloud'@'localhost' IDENTIFIED BY '$DB_PASSWORD';
-GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'localhost';
+GRANT ALL PRIVILEGES ON nextcloud_db.* TO 'nextcloud'@'localhost';
 FLUSH PRIVILEGES;
 EOF
 
