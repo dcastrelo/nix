@@ -53,3 +53,4 @@ foreach ($linea in $discos) {
         }
     }
 }
+pause
